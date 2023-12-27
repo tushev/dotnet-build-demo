@@ -26,6 +26,7 @@ jobs:
 
     - name: Publish to release
       uses: crazy-max/ghaction-github-release@v2
+      if: startsWith(github.ref, 'refs/tags/')
       with:
-        files: "dotnet-build-demo.exe"
+        files: "publish/dotnet-build-demo.exe"
 
