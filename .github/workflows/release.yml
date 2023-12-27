@@ -1,0 +1,31 @@
+name: Release (Build .NET Desktop WPF App)
+# Huge thanks to https://patriksvensson.se/posts/2020/03/creating-release-artifacts-with-github-actions for information and inspiration
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  release:
+    strategy:
+      matrix:
+        dotnet-version: [ '8.0.x' ]
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup .NET ${{ matrix.dotnet-version }}
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+
+    - name: Build
+      run: dotnet publish -r win-x64 --self-contained=false /p:PublishSingleFile=true src\dotnet-build-demo.csproj -o publish
+
+    - name: Publish to release
+      uses: crazy-max/ghaction-github-release@v2
+      with:
+        files: "dotnet-build-demo.exe"
+
