@@ -24,7 +24,7 @@ jobs:
       run: dotnet build src --configuration Release
       
     - name: Publish
-      run: dotnet publish -r win-x64 --self-contained=false /p:PublishSingleFile=true src -o publish
+      run: dotnet publish -r win-x64 --self-contained=false /p:PublishSingleFile=true src\dotnet-build-demo.csproj -o publish
 
     - name: Upload build artifact
       uses: actions/upload-artifact@v4
